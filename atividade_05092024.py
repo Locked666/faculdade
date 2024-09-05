@@ -40,14 +40,14 @@ def return_table_calc_reajuste(value):
     try:
         if value_reajuste <= 280 :
             return 0.20
-        elif value_reajuste >= 280.01 or value_reajuste <= 700:
+        elif value_reajuste >= 280.01 and value_reajuste <= 700:
             return 0.15
-        elif value_reajuste >=700.01 or value_reajuste <= 1500:
+        elif value_reajuste >=700.01 and value_reajuste <= 1500:
             return 0.10
         elif value_reajuste > 1500:
-            return 0.5
+            return 0.05
         else:
-            return 0.5 
+            return 0.05 
     except ValueError as e:
         print(f"Houve um erro ao retornar valor da do reajuste, verifique!\n {e}")
 
