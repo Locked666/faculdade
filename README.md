@@ -2,7 +2,7 @@
 
 ###
 
-<p align="left">Esse repositório foi criado para armazenar meu projetos feitos na faculdade.</p>
+<p align="left">Esse repositório foi criado para armazenar meus projetos feitos na faculdade.</p>
 
 ###
 
