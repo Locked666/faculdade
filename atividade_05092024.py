@@ -1,5 +1,5 @@
 ############################################
-#   Projeto Calculadora de IMC:            #     
+#   Projeto Calculadora de reajuste        #     
 #   Aluno: Julio Sales                     #     
 #                                          #     
 #   Anhanguera: 05/09/2024                 #     
@@ -57,14 +57,13 @@ def calc_reajuste(value):
     value_calc = float(value)
     value_porc = return_table_calc_reajuste(value_calc)
     value_reajuste_end =   value_calc + (value_calc * value_porc)
-    print(value_reajuste_end)
     return value_porc,value_reajuste_end
 
 def main():
     print(PRESENTATION)  
     while True:
         try:
-            value_entry = input("Informe o valor do Salário:")
+            value_entry = input("Informe o valor do Salário:  ")
             value_entry = value_entry.replace(',','.').strip()
             value_entry = float(value_entry)
             
