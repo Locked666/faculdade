@@ -93,8 +93,10 @@ def main():
                 notas.append(float(entry_notas))
             
             if len(notas) >= 2:
-                print(" Deseja Informar mais notas ?")
                 print("_"*30)
+                print("")
+                print(" Deseja Informar mais notas ?")
+                print("")
                 print("1 - Sim")
                 print("2 - Não")
                 a  = input("R: ")
