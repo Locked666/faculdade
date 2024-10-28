@@ -1,5 +1,5 @@
 ############################################
-#   Projeto Calculadora de IMC:            #     
+#   Projeto Calculadora DE NOTAS :         #     
 #   Aluno: Julio Sales                     #     
 #                                          #     
 #   Anhanguera: 05/09/2024  2.0            #     
