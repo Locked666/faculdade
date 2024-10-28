@@ -34,7 +34,7 @@ COMPLETION = f"""
 
 """
 
-
+# Criado função para realizar o calculo : 
 def calc_return_value_media(notas : list ):
     qt_nota = float(len(notas))
     soma_notas = 0.0
@@ -44,7 +44,8 @@ def calc_return_value_media(notas : list ):
         soma_notas +=float(i)
     
     media = soma_notas / qt_nota
-    media = float(media)
+    media = float(round(media))
+    print(media)
     
     if float(media) < 3.9:
         status = "Reprovado"
@@ -74,7 +75,7 @@ def calc_return_value_media(notas : list ):
     
     
 
-
+# Method de inicialização 
 def main():
     notas= []
     print(PRESENTATION)
