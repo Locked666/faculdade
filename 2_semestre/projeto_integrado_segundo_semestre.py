@@ -1,85 +1,90 @@
+
+from datetime import datetime
+
+# Estrutura para representar um Produto
+
+global inventario , categorias, movimentacoes
+
 class Produto:
-    def __init__(self, id, nome, categoria,localizacao, quantidade):
-        self.id = id
+    def __init__(self, nome, categoria, quantidade, preco, localizacao):
         self.nome = nome
         self.categoria = categoria
-        self.localizacao = localizacao
         self.quantidade = quantidade
+        self.preco = preco
+        self.localizacao = localizacao
 
-         
+# Estrutura para representar uma Categoria
 class Categoria:
-    def __init__(self, id, nome):
-        self.id = id
+    def __init__(self, nome):
         self.nome = nome
+        self.produtos = []  # Lista de produtos pertencentes à categoria
 
+# Estrutura para representar uma Movimentação de Estoque
 class Movimentacao:
-    def __init__(self, id, produto_id, tipo, quantidade, data):
-        self.id = id
-        self.produto_id = produto_id
-        self.tipo = tipo  # 'entrada' ou 'saida'
+    def __init__(self, produto, tipo, quantidade, data):
+        self.produto = produto
+        self.tipo = tipo  # 'entrada' ou 'saída'
         self.quantidade = quantidade
         self.data = data
 
-class SistemaGerenciamentoEstoque:
-    def __init__(self):
-        self.produtos = []
-        self.categorias = []
-        self.movimentacoes = []
+# Cadastro de novo produto
+def cadastrar_produto(nome, categoria, quantidade, preco, localizacao):
+    produto = Produto(nome, categoria, quantidade, preco, localizacao)
+    # Adicionar o produto à lista ou banco de dados
+    inventario.append(produto)
+    print(f"Produto '{nome}' cadastrado com sucesso!")
 
-    def cadastrar_produto(self, produto):
-        self.produtos.append(produto)
+# Cadastro de nova categoria
+def cadastrar_categoria(nome):
+    categoria = Categoria(nome)
+    categorias.append(categoria)
+    print(f"Categoria '{nome}' cadastrada com sucesso!")
 
-    def consultar_produto(self, id):
-        for produto in self.produtos:
-            if produto.id == id:
-                return produto
-        return None
+# Consulta de um produto específico
+def consultar_produto(nome):
+    for produto in inventario:
+        if produto.nome == nome:
+            print(f"Nome: {produto.nome}, Categoria: {produto.categoria}, Quantidade: {produto.quantidade}, Preço: {produto.preco}, Localização: {produto.localizacao}")
+            return produto
+    print("Produto não encontrado.")
+    return None
 
-    def cadastrar_categoria(self, categoria):
-        self.categorias.append(categoria)
+# Função para registrar a entrada de produtos no estoque
+def registrar_entrada(produto_nome, quantidade):
+    produto = consultar_produto(produto_nome)
+    if produto:
+        produto.quantidade += quantidade
+        movimentacao = Movimentacao(produto.nome, 'entrada', quantidade, datetime.now())
+        movimentacoes.append(movimentacao)
+        print(f"Entrada de {quantidade} unidades de '{produto_nome}' registrada.")
 
-    def consultar_categoria(self, id):
-        for categoria in self.categorias:
-            if categoria.id == id:
-                return categoria
-        return None
+# Função para registrar a saída de produtos do estoque
+def registrar_saida(produto_nome, quantidade):
+    produto = consultar_produto(produto_nome)
+    if produto and produto.quantidade >= quantidade:
+        produto.quantidade -= quantidade
+        movimentacao = Movimentacao(produto.nome, 'saída', quantidade, datetime.now())
+        movimentacoes.append(movimentacao)
+        print(f"Saída de {quantidade} unidades de '{produto_nome}' registrada.")
+    else:
+        print("Quantidade insuficiente para saída.")
 
-    def registrar_movimentacao(self, movimentacao):
-        produto = self.consultar_produto(movimentacao.produto_id)
-        if produto:
-            if movimentacao.tipo == 'entrada':
-                produto.quantidade += movimentacao.quantidade
-            elif movimentacao.tipo == 'saida' and produto.quantidade >= movimentacao.quantidade:
-                produto.quantidade -= movimentacao.quantidade
-            self.movimentacoes.append(movimentacao)
-        else:
-            print("Produto não encontrado.")
+# Relatório de estoque baixo
+def gerar_relatorio_estoque_baixo(limite=10):
+    print("Relatório de Produtos com Estoque Baixo:")
+    for produto in inventario:
+        if produto.quantidade <= limite:
+            print(f"Produto: {produto.nome}, Quantidade: {produto.quantidade}")
 
+# Relatório de excesso de estoque
+def gerar_relatorio_excesso_estoque(limite=100):
+    print("Relatório de Produtos com Excesso de Estoque:")
+    for produto in inventario:
+        if produto.quantidade >= limite:
+            print(f"Produto: {produto.nome}, Quantidade: {produto.quantidade}")
 
-    # def registrar_movimentacao(self, movimentacao):
-    #     produto = self.consultar_produto(movimentacao.produto_id)
-    #     if produto:
-    #         if movimentacao.tipo == 'entrada':
-    #             produto.quantidade += movimentacao.quantidade
-    #         elif movimentacao.tipo == 'saida' and produto.quantidade >= movimentacao.quantidade:
-    #             produto.quantidade -= movimentacao.quantidade
-    #         self.movimentacoes.append(movimentacao)
-    #     else:
-    #         print("Produto não encontrado.")
-
-    def gerar_relatorio(self):
-        relatorio = []
-        for produto in self.produtos:
-            relatorio.append({
-                'id': produto.id,
-                'nome': produto.nome,
-                'quantidade': produto.quantidade
-            })
-        return relatorio
-
-    def consultar_historico_movimentacoes(self, produto_id):
-        historico = []
-        for movimentacao in self.movimentacoes:
-            if movimentacao.produto_id == produto_id:
-                historico.append(movimentacao)
-        return historico
+# Histórico de movimentações
+def consultar_historico_movimentacoes():
+    print("Histórico de Movimentações:")
+    for movimentacao in movimentacoes:
+        print(f"Produto: {movimentacao.produto}, Tipo: {movimentacao.tipo}, Quantidade: {movimentacao.quantidade}, Data: {movimentacao.data}")
